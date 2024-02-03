@@ -1,57 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, PermissionsAndroid, Platform } from 'react-native';
-import BleManager from 'react-native-ble-manager';
+import React, { useState, useEffect, useRef } from 'react';
+import { ScrollView, StyleSheet, Animated } from 'react-native';
+import { data, locationData } from "./Content"; // Assuming locationData is also imported from Content.js
+import ActionCard from "../components/ActionCard";
 
 const HomeScreen = () => {
-  const [devices, setDevices] = useState([]);
+    const [usernamePairs, setUsernamePairs] = useState([]);
+    const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
-  useEffect(() => {
-    BleManager.start({ showAlert: false });
+    useEffect(() => {
+        let mounted = true;
 
-    if (Platform.OS === 'android' && Platform.Version >= 23) {
-      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((result) => {
-        if (result !== PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Permission denied');
-        }
-      });
-    }
+        const addCardWithDelay = () => {
+            if (!mounted) return;
 
-    const handleDiscoverPeripheral = (peripheral) => {
-      console.log('Got ble peripheral', peripheral);
-      if (!devices.some(device => device.id === peripheral.id)) {
-        setDevices([...devices, peripheral]);
-      }
-    };
+            let index1 = Math.floor(Math.random() * data.length);
+            let index2;
+            do {
+                index2 = Math.floor(Math.random() * data.length);
+            } while (index1 === index2);
 
-    BleManager.scan([], 5, true).then(() => {
-      console.log('Scanning...');
-    });
+            const locationIndex = Math.floor(Math.random() * locationData.length);
+            const newPair = {
+                username1: data[index1],
+                username2: data[index2],
+                location: locationData[locationIndex], // Random location
+                timestamp: new Date().toLocaleString() // Current timestamp
+            };
 
-    BleManager.start({showAlert: false});
+            setUsernamePairs(currentPairs => [newPair, ...currentPairs]); // Prepend new pair
 
-    BleManager.checkState();
+            // Reset animation value
+            fadeAnim.setValue(0);
 
-    const subscription = BleManagerEmitter.addListener(
-      'BleManagerDiscoverPeripheral',
-      handleDiscoverPeripheral
+            // Start the animation
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 1000,
+                useNativeDriver: true,
+            }).start();
+
+            // Calculate a random delay
+            const nextDelay = Math.random() * 3000 + 1000; // Random delay between 1s and 4s
+            setTimeout(addCardWithDelay, nextDelay);
+        };
+
+        addCardWithDelay();
+
+        return () => { mounted = false; };
+    }, []);
+
+    return (
+        <ScrollView style={styles.container}>
+            {usernamePairs.map((pair, index) => (
+                <Animated.View
+                    key={index}
+                    style={[
+                        styles.fadeIn,
+                        {
+                            transform: [{
+                                translateY: fadeAnim.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [-10, 0]
+                                })
+                            }]
+                        }
+                    ]}
+                >
+                    <ActionCard
+                        username1={pair.username1}
+                        username2={pair.username2}
+                        location={pair.location}
+                        timestamp={pair.timestamp}
+                    />
+                </Animated.View>
+            ))}
+        </ScrollView>
     );
-
-    return () => {
-      subscription.remove();
-    };
-  }, [devices]);
-
-  return (
-    <View>
-      <FlatList
-        data={devices}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <Text>{item.name || 'Unnamed device'} - {item.id}</Text>
-        )}
-      />
-    </View>
-  );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        padding: 20,
+    },
+    fadeIn: {
+        // Additional styling for animated component
+    },
+});
 
 export default HomeScreen;
