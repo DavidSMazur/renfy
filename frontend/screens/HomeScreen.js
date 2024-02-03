@@ -1,57 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, PermissionsAndroid, Platform } from 'react-native';
-import BleManager from 'react-native-ble-manager';
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import ActionCard from "../components/ActionCard";
+
 
 const HomeScreen = () => {
-  const [devices, setDevices] = useState([]);
+    const username1 = 'Alice';
+    const username2 = 'Bob';
 
-  useEffect(() => {
-    BleManager.start({ showAlert: false });
-
-    if (Platform.OS === 'android' && Platform.Version >= 23) {
-      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((result) => {
-        if (result !== PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Permission denied');
-        }
-      });
-    }
-
-    const handleDiscoverPeripheral = (peripheral) => {
-      console.log('Got ble peripheral', peripheral);
-      if (!devices.some(device => device.id === peripheral.id)) {
-        setDevices([...devices, peripheral]);
-      }
-    };
-
-    BleManager.scan([], 5, true).then(() => {
-      console.log('Scanning...');
-    });
-
-    BleManager.start({showAlert: false});
-
-    BleManager.checkState();
-
-    const subscription = BleManagerEmitter.addListener(
-      'BleManagerDiscoverPeripheral',
-      handleDiscoverPeripheral
+    return (
+        <View style={styles.container}>
+        <ActionCard username1={username1} username2={username2} />
+        {/* You can include more ActionCards with different usernames */}
+        </View>
     );
-
-    return () => {
-      subscription.remove();
-    };
-  }, [devices]);
-
-  return (
-    <View>
-      <FlatList
-        data={devices}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <Text>{item.name || 'Unnamed device'} - {item.id}</Text>
-        )}
-      />
-    </View>
-  );
-};
-
-export default HomeScreen;
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 20,
+    },
+  });
+  
+  export default HomeScreen;
