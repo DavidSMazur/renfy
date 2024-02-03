@@ -1,27 +1,30 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ActionCard = ({ username1, username2 }) => {
-    return (
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <View style={[styles.avatar, styles.avatarPlaceholder]}>
-              <Text style={styles.avatarText}>{username1.substring(0, 1)}</Text>
-            </View>
-            <View style={styles.titleContainer}>
-              <Text style={styles.username}>{username1}</Text>
-              <Text style={styles.crossedText}>crossed with</Text>
-              <Text style={styles.username}>{username2}</Text>
-            </View>
-            <View style={[styles.avatar, styles.avatarPlaceholder]}>
-              <Text style={styles.avatarText}>{username2.substring(0, 1)}</Text>
-            </View>
+const ActionCard = ({ username1, username2, location, timestamp }) => {
+  return (
+      <View style={styles.card}>
+        <View style={styles.cardHeader}>
+          <View style={[styles.avatar, styles.avatarPlaceholder]}>
+            <Text style={styles.avatarText}>{username1.substring(0, 1)}</Text>
           </View>
-          {/* <View style={styles.cardFooter}>
-            <Text style={styles.dateText}>Jan 30, 2024</Text>
-          </View> */}
+          <Text style={styles.username}>{username1}</Text>
         </View>
-    );
+
+        <Text style={styles.crossedText}>crossed with</Text>
+
+        <View style={styles.cardHeader}>
+          <View style={[styles.avatar, styles.avatarPlaceholder]}>
+            <Text style={styles.avatarText}>{username2.substring(0, 1)}</Text>
+          </View>
+          <Text style={styles.username}>{username2}</Text>
+        </View>
+
+        {/* Location and Timestamp */}
+        <Text style={styles.locationText}>{location}</Text>
+        <Text style={styles.timestampText}>{timestamp}</Text>
+      </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -34,9 +37,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 3,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginHorizontal: 20,
     marginVertical: 10,
   },
@@ -58,28 +59,26 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   username: {
     fontWeight: 'bold',
     fontSize: 16,
-    marginHorizontal: 5,
+    marginLeft: 10,
   },
   crossedText: {
     fontSize: 16,
+    marginTop: 10,
+    marginBottom: 10,
+    textAlign: 'center', // Center-align the text
   },
-  cardFooter: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  dateText: {
+  locationText: {
     fontSize: 14,
-    color: '#A4A4A4',
+    color: '#646464', // Change the color as needed
+    marginTop: 5,
+  },
+  timestampText: {
+    fontSize: 12,
+    color: '#A4A4A4', // Change the color as needed
+    marginBottom: 5,
   },
 });
 
