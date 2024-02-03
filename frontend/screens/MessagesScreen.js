@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 
 // Example conversation data
 const conversations = [
@@ -29,9 +31,9 @@ const conversations = [
 
 
 const MessagesScreen = () => {
-  
+  const navigation = useNavigation();
   const renderConversationItem = ({ item }) => (
-    <TouchableOpacity style={styles.conversationItem} onPress={() => console.log('Open conversation with', item.name)}>
+    <TouchableOpacity style={styles.conversationItem} onPress={() => navigation.navigate('MessageDetailScreen', { name: item.name })}>
       <Image source={{ uri: item.avatarUri }} style={styles.avatar} />
       <View style={styles.conversationInfo}>
         <Text style={styles.name}>{item.name}</Text>

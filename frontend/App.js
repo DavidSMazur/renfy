@@ -6,6 +6,7 @@ import SearchScreen from './screens/SearchScreen';
 import MessagesScreen from './screens/MessagesScreen';
 import AccountScreen from './screens/AccountScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MessageStack from './screens/MessageStack';
 
 
 const Tab = createBottomTabNavigator();
@@ -33,14 +34,14 @@ export default function App() {
                 }}
         />
         <Tab.Screen 
-                name="Messages" 
-                component={MessagesScreen} 
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="envelope" color={color} size={size} />
-                    ),
-                }}
-        />
+            name="Messages" 
+            component={MessageStack} 
+            options={{
+                tabBarIcon: ({ color, size }) => (
+                <Icon name="envelope" color={color} size={size} />
+                ),
+            }}
+            />
         <Tab.Screen 
                 name="Account" 
                 component={AccountScreen} 
