@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import { data, requests } from './Content';
+import { useRoute } from '@react-navigation/native';
 
 const generateRandomRequests = () => {
   const numberOfRequests = Math.floor(Math.random() * (10 - 3 + 1)) + 3; // Random number between 3 and 10
@@ -23,8 +24,13 @@ const RequestScreen = () => {
     }
   }, [requestList]);
 
+  const route = useRoute();
+  const onAccept = route.params?.onAccept;
+
   const handleAccept = (id) => {
-    // Remove the request from the list when accepted
+    if (onAccept) {
+      onAccept();
+    }
     setRequestList(prevRequests => prevRequests.filter(request => request.id !== id));
   };
 
@@ -62,7 +68,7 @@ const RequestScreen = () => {
   );
 };
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -93,22 +99,22 @@ const RequestScreen = () => {
   declineButton: {
     backgroundColor: '#DC3545', // Red color for decline button
   },
-    profileImage: {
-      width: 50,
-      height: 50,
-      borderRadius: 25,
-      marginRight: 10,
-    },
-    requestItem: {
-      flexDirection: 'row',
-      padding: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: '#CCCCCC',
-      alignItems: 'center',
-    },
-    requestInfo: {
-      flex: 1,
-    },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 10,
+  },
+  requestItem: {
+    flexDirection: 'row',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+    alignItems: 'center',
+  },
+  requestInfo: {
+    flex: 1,
+  },
 });
 
 export default RequestScreen;

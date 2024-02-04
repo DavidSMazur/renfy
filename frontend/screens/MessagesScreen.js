@@ -16,14 +16,20 @@ const generateRandomConversations = () => {
   const shuffledData = shuffleArray(data);
   const shuffledTexts = shuffleArray(texts);
 
-  return shuffledData.map((user, index) => {
-    return {
-      id: index.toString(),
-      name: user.username,
-      image: user.image,
-      texts: shuffledTexts[index % shuffledTexts.length]
-    };
-  });
+  // Determine the shorter length to avoid running out of texts or users
+  const count = Math.min(shuffledData.length, shuffledTexts.length);
+  const uniqueConversations = [];
+
+  for (let i = 0; i < count; i++) {
+    uniqueConversations.push({
+      id: i.toString(),
+      name: shuffledData[i].username,
+      image: shuffledData[i].image,
+      texts: shuffledTexts[i] // Assuming each 'texts' item is a single conversation starter
+    });
+  }
+
+  return uniqueConversations;
 };
 
 const getLastMessageInfo = (messages) => {

@@ -1,24 +1,76 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import DefaultProfilePic from '../assets/logo.png';
+import { useNavigation } from '@react-navigation/native';
 
 function AccountScreen() {
-  // Placeholder data - replace with your data source
-  const userInfo = {
-    fullName: 'John Doe',
-    username: '@johndoe',
-    profilePicture: 'https://via.placeholder.com/150', // Use actual image URL
-    biography: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    connections: 150, // Example number
+  const [userInfo, setUserInfo] = useState({
+    fullName: 'Shubh Thorat',
+    username: '@itsjustshubh',
+    profilePicture: Image.resolveAssetSource(DefaultProfilePic).uri,
+    biography: 'Passionate about technology and innovation. Let’s connect and make something great together!',
+    connections: 0,
+  });
+
+  const navigation = useNavigation();
+
+  const increaseConnections = () => {
+    setUserInfo(prevState => ({
+      ...prevState,
+      connections: prevState.connections + 1,
+    }));
+  };
+
+  const goToRequestScreen = () => {
+    navigation.navigate('RequestScreen', { onAccept: increaseConnections });
+  };
+
+  const uploadProfilePicture = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this app to access your photos!");
+      return;
+    }
+
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!pickerResult.cancelled) {
+      updateField('profilePicture', pickerResult.uri);
+    }
+  };
+
+  const updateField = (field, value) => {
+    setUserInfo({ ...userInfo, [field]: value });
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: userInfo.profilePicture }} style={styles.profilePic} />
-      <Text style={styles.name}>{userInfo.fullName}</Text>
-      <Text style={styles.username}>{userInfo.username}</Text>
-      <Text style={styles.biography}>{userInfo.biography}</Text>
-      <Text style={styles.connections}>Connections: {userInfo.connections}</Text>
-    </View>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={uploadProfilePicture}>
+          <Image source={{ uri: userInfo.profilePicture }} style={styles.profilePic} />
+        </TouchableOpacity>
+        <TextInput
+            style={styles.textInput}
+            value={userInfo.fullName}
+            onChangeText={(text) => updateField('fullName', text)}
+        />
+        <Text style={styles.usernameText}>{userInfo.username}</Text>
+        <TextInput
+            style={[styles.textInput, styles.biographyInput]}
+            value={userInfo.biography}
+            onChangeText={(text) => updateField('biography', text)}
+            multiline
+        />
+        <Text style={styles.connectionsText}>Connections: {userInfo.connections}</Text>
+        <TouchableOpacity onPress={goToRequestScreen}>
+          <Text>Go to Requests</Text>
+        </TouchableOpacity>
+      </View>
   );
 }
 
@@ -32,28 +84,37 @@ const styles = StyleSheet.create({
   profilePic: {
     width: 120,
     height: 120,
-    borderRadius: 60, // To make it circle
+    borderRadius: 60, // This makes the image circular
     marginBottom: 20,
   },
-  name: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 5,
+  textInput: {
+    fontSize: 16,
+    marginBottom: 10,
+    textAlign: 'center',
+    width: '80%',
+    padding: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
   },
-  username: {
+  biographyInput: {
+    height: 100,
+    textAlignVertical: 'top',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    marginBottom: 20,
+    width: '80%',
+    padding: 10, // Adjust padding as needed for visual comfort
+    lineHeight: 24, // Example line height, adjust based on your font size
+  },
+  connectionsText: {
+    fontSize: 16,
+    color: '#007bff',
+  },
+  usernameText: {
     fontSize: 16,
     color: 'gray',
     marginBottom: 20,
-  },
-  biography: {
-    fontSize: 14,
-    textAlign: 'center',
-    marginHorizontal: 40,
-    marginBottom: 20,
-  },
-  connections: {
-    fontSize: 16,
-    color: '#007bff', // Bootstrap primary blue for example
   },
 });
 
