@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
@@ -11,28 +12,25 @@ import MessageStack from './screens/MessageStack';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
-
-const MainApp = () => {
-
-};
-
 const Stack = createStackNavigator();
 
 export default function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [fullName, setFullName] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    // useEffect(() => {
-    //     const checkLoginStatus = async () => {
-    //         const isLoggedInValue = await AsyncStorage.getItem('isLoggedIn');
-    //         setIsLoggedIn(isLoggedInValue === 'true');
-    //     };
-
-    //     checkLoginStatus();
-    // }, []);
+    const handleLogin = async () => {
+        // Your validation logic
+        if (email && password) { // Assuming login validation passed
+            setIsLoggedIn(true);
+        }
+    };
 
     return (
         <NavigationContainer>
-        <Tab.Navigator>
+        {isLoggedIn ? (<Tab.Navigator>
           <Tab.Screen
             name="Home"
             component={HomeScreen}
@@ -79,16 +77,54 @@ export default function App() {
                 ),
             }}
           />
-        </Tab.Navigator>
+        </Tab.Navigator>) : (
+                 <View style={styles.container}>
+                 <TextInput
+                     placeholder="Full Name"
+                     value={fullName}
+                     onChangeText={setFullName}
+                     style={styles.input}
+                 />
+                 <TextInput
+                     placeholder="Username"
+                     value={username}
+                     onChangeText={setUsername}
+                     style={styles.input}
+                 />
+                 <TextInput
+                     placeholder="Email"
+                     value={email}
+                     onChangeText={setEmail}
+                     keyboardType="email-address"
+                     style={styles.input}
+                 />
+                 <TextInput
+                     placeholder="Password"
+                     value={password}
+                     onChangeText={setPassword}
+                     secureTextEntry
+                     style={styles.input}
+                 />
+                 <Button title="Log In" onPress={handleLogin} />
+             </View>
+             )}
         </NavigationContainer>
-        // <NavigationContainer>
-        //     {/* {isLoggedIn ? (
-        //         <MainApp />
-        //     ) : (
-        //         <Stack.Navigator screenOptions={{ headerShown: false }}>
-        //             <Stack.Screen name="Login" component={LoginScreen} />
-        //         </Stack.Navigator>
-        //     )} */}
-        // {/* </NavigationContainer> */}
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    input: {
+        width: '100%',
+        marginVertical: 10,
+        padding: 15,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 5,
+    },
+});
