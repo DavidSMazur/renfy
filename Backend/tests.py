@@ -2,7 +2,7 @@
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
-from main import add_user, add_crossings,change_pass_w_old,change_username
+from main import add_user, add_crossings,change_pass_w_old,change_name
 
 
 load_dotenv()
@@ -22,3 +22,4 @@ add_crossings(db,"Sam", "Bob", "Barus Hall") """
 
 #change_pass_w_old(db,"Bob","123","345")
 
+#change_name(db,"Sam","bb")
