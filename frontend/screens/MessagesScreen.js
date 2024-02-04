@@ -1,55 +1,45 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { texts } from "./Content"; // Import the texts data
 
-
-// Example conversation data
-const conversations = [
-  {
-    id: '1',
-    name: 'Advait [Warp]',
-    avatarUri: 'https://cdn.discordapp.com/avatars/331559213551714308/e860cd0ff20111b8034e9640c39aa30b.webp?size=160',
-    // avatarUri: 'https://via.placeholder.com/50',
-    lastMessage: 'Tell me about Warp.',
-    lastMessageTime: '5m',
-  },
-  {
-    id: '2',
-    name: 'Daniel Ma',
-    avatarUri: 'https://cdn.discordapp.com/avatars/112728896868204544/292fa7337b050e390daabeffafee3a4d.webp?size=240',
-    lastMessage: 'Are we still on for tomorrow?',
-    lastMessageTime: '1h',
-  },
-  {
-    id: '3',
-    name: 'Spandan Goel',
-    avatarUri: 'https://cdn.discordapp.com/avatars/495397436278177822/1773893b508015227d9e57cfeefcd060.webp?size=240',
-    lastMessage: 'Can you send me the Deep Learning homework answers?',
-    lastMessageTime: '4h',
+const getLastMessageInfo = (messages) => {
+  if (messages && messages.length > 0) {
+    const lastMessage = messages[messages.length - 1];
+    return { text: lastMessage.text, datetime: lastMessage.datetime };
   }
-];
-
+  return { text: '', datetime: '' };
+};
 
 const MessagesScreen = () => {
   const navigation = useNavigation();
-  const renderConversationItem = ({ item }) => (
-    <TouchableOpacity style={styles.conversationItem} onPress={() => navigation.navigate('MessageDetailScreen', { name: item.name })}>
-      <Image source={{ uri: item.avatarUri }} style={styles.avatar} />
-      <View style={styles.conversationInfo}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.lastMessage}>{item.lastMessage}</Text>
-      </View>
-      <Text style={styles.lastMessageTime}>{item.lastMessageTime}</Text>
-    </TouchableOpacity>
-  );
+
+  const renderConversationItem = ({ item }) => {
+    const { text, datetime } = getLastMessageInfo(item.texts);
+
+    return (
+        <TouchableOpacity
+            style={styles.conversationItem}
+            onPress={() => navigation.navigate('MessageDetailScreen', { name: item.name, texts: item.texts })}
+        >
+          {/* Placeholder for Avatar */}
+          <View style={styles.avatar} />
+          <View style={styles.conversationInfo}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.lastMessage}>{text}</Text>
+          </View>
+          <Text style={styles.lastMessageTime}>{datetime}</Text>
+        </TouchableOpacity>
+    );
+  };
 
   return (
-    <FlatList
-      data={conversations}
-      keyExtractor={item => item.id}
-      renderItem={renderConversationItem}
-      style={styles.container}
-    />
+      <FlatList
+          data={texts}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderConversationItem}
+          style={styles.container}
+      />
   );
 };
 

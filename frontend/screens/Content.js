@@ -594,20 +594,59 @@ const locationData = [
 const texts = [
     {
         name: "Shubh Thorat",
-        toTexts: [
-            'Olney-Margolies Athletic Center',
-            'Pizzitola Sports Center',
-            'Ted Turner Sailing Pavilion',
-            'Center for Lacrosse and Soccer',],
-        fromTexts: [
-            'Olney-Margolies Athletic Center',
-            'Pizzitola Sports Center',
-            'Ted Turner Sailing Pavilion',
-            'Center for Lacrosse and Soccer',]
+        texts: [
+            { from: true, text: 'Pizzitola Sports Center', datetime: '2024-02-03 10:00' },
+            { from: false, text: 'Are you going to the game tonight?', datetime: '2024-02-03 10:05' },
+            { from: true, text: 'Yes, I am. Are you coming too?', datetime: '2024-02-03 10:07' },
+            { from: false, text: 'Definitely! Let’s meet there.', datetime: '2024-02-03 10:09' },
+        ],
     },
-]
+    {
+        name: "Alex Johnson",
+        texts: [
+            { from: true, text: 'Have you finished the project?', datetime: '2024-02-02 15:30' },
+            { from: false, text: 'Not yet, still working on the last part.', datetime: '2024-02-02 15:45' },
+            { from: true, text: 'Need any help?', datetime: '2024-02-02 16:00' },
+            { from: false, text: 'Yes, could use some assistance with the coding.', datetime: '2024-02-02 16:15' },
+        ],
+    },
+    {
+        name: "Emma Brown",
+        texts: [
+            { from: false, text: 'Lunch at the new Italian restaurant?', datetime: '2024-02-01 11:00' },
+            { from: true, text: 'Sounds great! What time?', datetime: '2024-02-01 11:05' },
+            { from: false, text: 'How about 1 PM?', datetime: '2024-02-01 11:10' },
+            { from: true, text: 'Perfect, see you there!', datetime: '2024-02-01 11:15' },
+        ],
+    },
+    {
+        name: "David Smith",
+        texts: [
+            { from: true, text: 'Basketball game this weekend?', datetime: '2024-02-04 20:00' },
+            { from: false, text: 'Can’t make it this time, got family plans.', datetime: '2024-02-04 20:10' },
+            { from: true, text: 'No problem, next time then.', datetime: '2024-02-04 20:20' },
+            { from: false, text: 'Definitely! Let’s plan for next weekend.', datetime: '2024-02-04 20:30' },
+        ],
+    },
+];
+
+
+const requests = [
+    "Let's bond over our love for coding and tech!",
+    "Fellow AI enthusiast, let's chat about the latest in AI.",
+    "Hackathon enthusiast seeking collaborators!",
+    "Join me for a concert at Great Recital Hall?",
+    "Passionate about social tech solutions.",
+    "Project management insights exchange!",
+    "Congrats on your HackHarvard win!",
+    "Exploring innovation together.",
+    "Foodie looking for dining buddies!",
+    "Let's connect and learn from each other.",
+];
 
 export {
     data,
-    locationData
+    locationData,
+    texts,
+    requests,
 }

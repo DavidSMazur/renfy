@@ -10,7 +10,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MessageStack from './screens/MessageStack';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
 const Tab = createBottomTabNavigator();
 
 const MainApp = () => {
