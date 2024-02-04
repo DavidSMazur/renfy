@@ -28,12 +28,8 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      # Change to frontend directory
-      - name: Change to frontend directory
-        run: cd frontend
-
-      - name: Install frontend dependencies
+      - name: Install dependencies
         run: yarn install
 
-      - name: Publish frontend update
+      - name: Publish update
         run: eas update --auto
