@@ -30,7 +30,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install frontend dependencies
-        run: yarn install
+        run: npm install
         working-directory: ./Frontend
 
       - name: Publish frontend update
