@@ -1,6 +1,9 @@
+#main.py
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
+from datetime import datetime
+
 
 load_dotenv()
 
@@ -13,13 +16,13 @@ def add_user(db,Real_Name,User_Name,Password,Email):
     document = db.users
     new_user= {
       "Real_Name":Real_Name,
-      "User":User_Name, #distinct
+      "User":User_Name, #distinct and permenatn
       "Password":Password,
       "Email":Email,
       #Differentiating crossings, connection requests, and accepted connections allows for O(1) access. 
       "Crossings":{},  #hash maps of crossed pathes with user 
-      "Connection_Requests":set(), #list
-      "Accepted_Connections":set() #list - mutally accepted
+      "Connection_Requests":{}, #list
+      "Accepted_Connections":{} #list - mutally accepted
     }
     document.insert_one(new_user)
     return 1
@@ -28,15 +31,21 @@ def add_user(db,Real_Name,User_Name,Password,Email):
     return 0
 
 def add_crossings(db,USER_NAME, Connection, Location):
+  if USER_NAME==Connection:
+    print("User can't connect with themselves")
+    return 0
   document = db.users
   existing_user = document.find_one({"User": USER_NAME})
   if existing_user:
     crossings = existing_user.get("Crossings", {})  # Get existing crossings or create an empty list
-    if crossings[Connection]:  
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    if Connection in crossings:  
       crossings[Connection]["count"] += 1 
-      crossings[Connection]["locations"].extend(Location)
+      crossings[Connection]["locations"].append(Location)
+      crossings[Connection]["time"].append(current_time)
     else:
-      crossings[Connection] = {"count": 1, "locations": [Location]}
+      crossings[Connection] = {"count": 1, "locations": [Location],"time":[current_time] }
 
     update = {"$set": {"Crossings": crossings}}  # Update the crossings list
     result = document.update_one({"User": USER_NAME}, update)
@@ -46,13 +55,15 @@ def add_crossings(db,USER_NAME, Connection, Location):
     print("Username not found")
     return 0
 
-def change_password_w_old_password(db,USER_NAME,old_password,new_password):
+def change_pass_w_old(db,USER_NAME,old_password,new_password):
+  if old_password==new_password:
+    return 0
   document = db.users
   existing_user = document.find_one({"User": USER_NAME})
   if existing_user:
     prev_password = existing_user.get("Password", {})
-    if prev_password["Password"]==old_password:
-      old_password["Password"]=new_password
+    if prev_password==old_password:
+      existing_user["Password"]=new_password
       document.update_one({"User": USER_NAME}, {"$set": {"Password": new_password}})
     else:
       print("Previous password does not match")
@@ -60,8 +71,18 @@ def change_password_w_old_password(db,USER_NAME,old_password,new_password):
     print("Username not found")
   return 1
 
-add_user(db,"David","DMazur","123","Email")
 
+def change_username(db,CURRENT_USER_NAME,NEW_USER_NAME):
+  if CURRENT_USER_NAME==NEW_USER_NAME:
+    return 0
+  document = db.users
+  existing_user = document.find_one({"User": CURRENT_USER_NAME})
+  if existing_user:
+    existing_user["USER_NAME"]=NEW_USER_NAME
+    document.update_one({"User": CURRENT_USER_NAME}, {"$set": {"USER_NAME": NEW_USER_NAME}})
+  else:
+    print("Username not found")
+  return 1
 
 
 
