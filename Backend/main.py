@@ -72,14 +72,12 @@ def change_pass_w_old(db,USER_NAME,old_password,new_password):
   return 1
 
 
-def change_username(db,CURRENT_USER_NAME,NEW_USER_NAME):
-  if CURRENT_USER_NAME==NEW_USER_NAME:
-    return 0
+def change_name(db,CURRENT_USER_NAME,NEW_USER):
   document = db.users
   existing_user = document.find_one({"User": CURRENT_USER_NAME})
   if existing_user:
-    existing_user["USER_NAME"]=NEW_USER_NAME
-    document.update_one({"User": CURRENT_USER_NAME}, {"$set": {"USER_NAME": NEW_USER_NAME}})
+    existing_user["Real_Name"]=NEW_USER
+    document.update_one({"User": CURRENT_USER_NAME}, {"$set": {"Real_Name": NEW_USER}})
   else:
     print("Username not found")
   return 1
@@ -108,37 +106,3 @@ def change_username(db,CURRENT_USER_NAME,NEW_USER_NAME):
 """
 
 
-
-"""
-  if existing_user["Crossings"]
-  if "Crossings" not in existing_user:
-    existing_user["Crossings"] = []
-  existing_user["Crossings"] = []
-
-
-  update = {"$set": {"field_to_update": "new_value"}}
-  result = collection.update_one("User": USER_NAME, update)
-
-"""
-"""
-#also take time
-"""
-
-
-"""
-Givens:
-User {
-  Real Name
-  User_Name
-  Password
-  Email
-  Connections: set(
-)
-}
-{
-  Connection UserName : set()
-  location
-
-  
-}
-"""
