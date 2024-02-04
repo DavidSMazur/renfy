@@ -39,4 +39,4 @@ jobs:
 
       - name: Publish frontend update
         run: eas update --auto
-        working-directory: ./frontend
+        working-directory: ./Frontend
