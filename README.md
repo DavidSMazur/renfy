@@ -81,7 +81,8 @@ After installation, open Renfy on your device. The app will request permission t
 The backend is a MongoDB NoSQL database with the following JSON schema. The "Crossings" element is central to tracking information about crossings with other individuals. The most critical operations in the backend serve to initialize new users, add crossings with other individuals, and serve to update basic information. The "User" field serves as a unique identifier and can't be modified.
 
 ```
-{"Real_Name":
+{
+"Real_Name":
 "User_Name":
 "Password":
 "Email":
