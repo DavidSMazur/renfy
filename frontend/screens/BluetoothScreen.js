@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Text } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const BluetoothScreen = () => {
-
+function BluetoothScreen() {
   return (
     <View style={styles.container}>
-        <Text>Bluetooth Screen</Text>
+      <Text>This is the Account Page</Text>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-});
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
 
 export default BluetoothScreen;

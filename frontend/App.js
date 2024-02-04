@@ -50,7 +50,7 @@ export default function App() {
                         headerShown: false, // Hide the header for the Messages tab
                     }}
                 />
-          <Tab.Screen
+          {/* <Tab.Screen
               name="Bluetooth"
               component={BluetoothScreen}
               options={{
@@ -58,7 +58,7 @@ export default function App() {
                       <Icon name="bluetooth" color={color} size={size} />
                   ),
               }}
-          />
+          /> */}
           <Tab.Screen
                     name="Requests"
                     component={RequestScreen}
