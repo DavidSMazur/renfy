@@ -67,8 +67,8 @@ function AccountScreen() {
             multiline
         />
         <Text style={styles.connectionsText}>Connections: {userInfo.connections}</Text>
-        <TouchableOpacity onPress={goToRequestScreen}>
-          <Text>Go to Requests</Text>
+        <TouchableOpacity onPress={goToRequestScreen} style={styles.button}>
+          <Text style={styles.buttonText}>Go to Requests</Text>
         </TouchableOpacity>
       </View>
   );
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   profilePic: {
     width: 120,
     height: 120,
-    borderRadius: 60, // This makes the image circular
+    borderRadius: 60,
     marginBottom: 20,
   },
   textInput: {
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
     width: '80%',
-    padding: 10, // Adjust padding as needed for visual comfort
-    lineHeight: 24, // Example line height, adjust based on your font size
+    padding: 10,
+    lineHeight: 24,
   },
   connectionsText: {
     fontSize: 16,
@@ -115,6 +115,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
     marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#007bff',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
   },
 });
 

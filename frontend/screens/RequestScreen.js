@@ -16,16 +16,14 @@ const generateRandomRequests = () => {
 
 const RequestScreen = () => {
   const [requestList, setRequestList] = useState(generateRandomRequests());
+  const route = useRoute();
+  const onAccept = route.params?.onAccept;
 
   useEffect(() => {
     if (requestList.length === 0) {
-      // Generate new requests when all requests have been handled
       setRequestList(generateRandomRequests());
     }
   }, [requestList]);
-
-  const route = useRoute();
-  const onAccept = route.params?.onAccept;
 
   const handleAccept = (id) => {
     if (onAccept) {
@@ -35,7 +33,6 @@ const RequestScreen = () => {
   };
 
   const handleDecline = (id) => {
-    // Remove the request from the list when declined
     setRequestList(prevRequests => prevRequests.filter(request => request.id !== id));
   };
 
@@ -72,6 +69,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  requestItem: {
+    flexDirection: 'row',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+    alignItems: 'center',
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 10,
+  },
+  requestInfo: {
+    flex: 1,
+  },
   name: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -94,26 +107,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   acceptButton: {
-    backgroundColor: '#28A745', // Green color for accept button
+    backgroundColor: '#28A745',
   },
   declineButton: {
-    backgroundColor: '#DC3545', // Red color for decline button
-  },
-  profileImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
-  },
-  requestItem: {
-    flexDirection: 'row',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
-    alignItems: 'center',
-  },
-  requestInfo: {
-    flex: 1,
+    backgroundColor: '#DC3545',
   },
 });
 
