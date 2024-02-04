@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
-import SearchScreen from './screens/SearchScreen';
+import RequestsScreen from './screens/RequestScreen';
 import MessagesScreen from './screens/MessagesScreen';
 import AccountScreen from './screens/AccountScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -24,15 +24,6 @@ export default function App() {
                     }}
                 />
                 <Tab.Screen
-                    name="Search"
-                    component={SearchScreen}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <Icon name="search" color={color} size={size} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
                     name="Messages"
                     component={MessageStack}
                     options={{
@@ -40,6 +31,15 @@ export default function App() {
                             <Icon name="envelope" color={color} size={size} />
                         ),
                         headerShown: false, // Hide the header for the Messages tab
+                    }}
+                />
+                <Tab.Screen
+                    name="Requests"
+                    component={RequestsScreen}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon name="user-plus" color={color} size={size} /> // Changed to 'user-plus' icon
+                        ),
                     }}
                 />
                 <Tab.Screen

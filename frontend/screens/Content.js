@@ -591,7 +591,7 @@ const locationData = [
     'Ted Turner Sailing Pavilion',
     'Center for Lacrosse and Soccer',]
 
-export const texts = [
+const texts = [
     {
         name: "Shubh Thorat",
         texts: [
@@ -630,7 +630,23 @@ export const texts = [
     },
 ];
 
+
+const requests = [
+    "Let's bond over our love for coding and tech!",
+    "Fellow AI enthusiast, let's chat about the latest in AI.",
+    "Hackathon enthusiast seeking collaborators!",
+    "Join me for a concert at Great Recital Hall?",
+    "Passionate about social tech solutions.",
+    "Project management insights exchange!",
+    "Congrats on your HackHarvard win!",
+    "Exploring innovation together.",
+    "Foodie looking for dining buddies!",
+    "Let's connect and learn from each other.",
+];
+
 export {
     data,
-    locationData
+    locationData,
+    texts,
+    requests,
 }
