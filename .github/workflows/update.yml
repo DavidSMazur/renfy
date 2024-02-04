@@ -9,10 +9,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Navigate to the frontend directory
-      - name: Change to frontend directory
-        run: cd Frontend
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -35,7 +31,7 @@ jobs:
 
       - name: Install frontend dependencies
         run: yarn install
-        working-directory: ./path/to/frontend
+        working-directory: ./Frontend
 
       - name: Publish frontend update
         run: eas update --auto
