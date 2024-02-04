@@ -9,15 +9,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Navigate to the frontend directory
+      - name: Change to frontend directory
+        run: cd frontend
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
           cache: yarn
-
-      # Navigate to the frontend directory
-      - name: Change to frontend directory
-        run: cd path/to/frontend
 
       - name: Check for EXPO_TOKEN
         run: |
