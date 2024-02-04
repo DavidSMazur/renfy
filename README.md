@@ -33,7 +33,7 @@ Renfy is a social connectivity app designed to help users discover potential con
 ### Technology Stack
 
 - **Frontend:** React Native, for cross-platform mobile development.
-- **Backend:** Node.js with Express for the server, MongoDB for the database.
+- **Backend:** Python and MongoDB for the database.
 - **Proximity Technology:** Utilizes Bluetooth LE for near-field communications and GPS for location tracking.
 
 ### Getting Started
