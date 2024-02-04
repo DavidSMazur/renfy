@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { texts } from "./Content"; // Import the texts data
+import { data, texts } from './Content'; // Import data and texts
+
+const shuffleArray = (array) => {
+  let shuffledArray = [...array];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+  return shuffledArray;
+};
+
+const generateRandomConversations = () => {
+  const shuffledData = shuffleArray(data);
+  const shuffledTexts = shuffleArray(texts);
+
+  return shuffledData.map((user, index) => {
+    return {
+      id: index.toString(),
+      name: user.username,
+      image: user.image,
+      texts: shuffledTexts[index % shuffledTexts.length]
+    };
+  });
+};
 
 const getLastMessageInfo = (messages) => {
   if (messages && messages.length > 0) {
@@ -12,18 +35,18 @@ const getLastMessageInfo = (messages) => {
 };
 
 const MessagesScreen = () => {
+  const [conversations, setConversations] = useState(generateRandomConversations());
   const navigation = useNavigation();
 
   const renderConversationItem = ({ item }) => {
-    const { text, datetime } = getLastMessageInfo(item.texts);
+    const { text, datetime } = getLastMessageInfo(item.texts.texts);
 
     return (
         <TouchableOpacity
             style={styles.conversationItem}
-            onPress={() => navigation.navigate('MessageDetailScreen', { name: item.name, texts: item.texts })}
+            onPress={() => navigation.navigate('MessageDetailScreen', { name: item.name, texts: item.texts.texts })}
         >
-          {/* Placeholder for Avatar */}
-          <View style={styles.avatar} />
+          <Image source={{ uri: item.image }} style={styles.avatar} />
           <View style={styles.conversationInfo}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.lastMessage}>{text}</Text>
@@ -35,8 +58,8 @@ const MessagesScreen = () => {
 
   return (
       <FlatList
-          data={texts}
-          keyExtractor={(item, index) => index.toString()}
+          data={conversations}
+          keyExtractor={(item) => item.id}
           renderItem={renderConversationItem}
           style={styles.container}
       />
@@ -60,6 +83,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     marginRight: 10,
+    backgroundColor: '#C4C4C4', // Placeholder color if no image is provided
   },
   conversationInfo: {
     flex: 1,

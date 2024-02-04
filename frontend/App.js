@@ -30,7 +30,7 @@ export default function App() {
 
     return (
         <NavigationContainer>
-        {isLoggedIn ? (<Tab.Navigator>
+        {!isLoggedIn ? (<Tab.Navigator>
           <Tab.Screen
             name="Home"
             component={HomeScreen}

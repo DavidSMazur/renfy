@@ -67,10 +67,12 @@ const HomeScreen = () => {
                     ]}
                 >
                     <ActionCard
-                        username1={pair.username1}
-                        username2={pair.username2}
+                        username1={pair.username1.username}
+                        username2={pair.username2.username}
                         location={pair.location}
                         timestamp={pair.timestamp}
+                        image1={pair.username1.image}
+                        image2={pair.username2.image}
                     />
                 </Animated.View>
             ))}

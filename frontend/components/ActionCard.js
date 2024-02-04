@@ -1,22 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
-const ActionCard = ({ username1, username2, location, timestamp }) => {
+const ActionCard = ({ username1, username2, location, timestamp, image1, image2 }) => {
   return (
       <View style={styles.card}>
+        {/* User 1 Info */}
         <View style={styles.cardHeader}>
-          <View style={[styles.avatar, styles.avatarPlaceholder]}>
-            <Text style={styles.avatarText}>{username1.substring(0, 1)}</Text>
-          </View>
+          {image1 ? (
+              <Image source={{ uri: image1 }} style={styles.avatarImage} />
+          ) : (
+              <View style={[styles.avatar, styles.avatarPlaceholder]}>
+                <Text style={styles.avatarText}>{username1 ? username1.substring(0, 1) : ''}</Text>
+              </View>
+          )}
           <Text style={styles.username}>{username1}</Text>
         </View>
 
         <Text style={styles.crossedText}>crossed with</Text>
 
+        {/* User 2 Info */}
         <View style={styles.cardHeader}>
-          <View style={[styles.avatar, styles.avatarPlaceholder]}>
-            <Text style={styles.avatarText}>{username2.substring(0, 1)}</Text>
-          </View>
+          {image2 ? (
+              <Image source={{ uri: image2 }} style={styles.avatarImage} />
+          ) : (
+              <View style={[styles.avatar, styles.avatarPlaceholder]}>
+                <Text style={styles.avatarText}>{username2 ? username2.substring(0, 1) : ''}</Text>
+              </View>
+          )}
           <Text style={styles.username}>{username2}</Text>
         </View>
 
@@ -79,6 +89,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#A4A4A4', // Change the color as needed
     marginBottom: 5,
+  },
+  avatarImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
 });
 

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import { data, requests } from './Content';
 
 const generateRandomRequests = () => {
   const numberOfRequests = Math.floor(Math.random() * (10 - 3 + 1)) + 3; // Random number between 3 and 10
   return Array.from({ length: numberOfRequests }).map(() => {
-    const randomName = data[Math.floor(Math.random() * data.length)];
+    const randomIndex = Math.floor(Math.random() * data.length);
+    const randomName = data[randomIndex].username; // Assuming data array has username field
     const randomRequest = requests[Math.floor(Math.random() * requests.length)];
-    return { id: Math.random().toString(), name: randomName, requestDetails: randomRequest };
+    const profileImage = data[randomIndex].image; // Assuming data array has image field
+    return { id: Math.random().toString(), name: randomName, requestDetails: randomRequest, profileImage: profileImage };
   });
 };
-
 
 const RequestScreen = () => {
   const [requestList, setRequestList] = useState(generateRandomRequests());
@@ -34,15 +35,18 @@ const RequestScreen = () => {
 
   const renderRequestItem = ({ item }) => (
       <View style={styles.requestItem}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.details}>{item.requestDetails}</Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(item.id)}>
-            <Text style={styles.buttonText}>Accept</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.declineButton]} onPress={() => handleDecline(item.id)}>
-            <Text style={styles.buttonText}>Decline</Text>
-          </TouchableOpacity>
+        <Image source={{ uri: item.profileImage }} style={styles.profileImage} />
+        <View style={styles.requestInfo}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.details}>{item.requestDetails}</Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={[styles.button, styles.acceptButton]} onPress={() => handleAccept(item.id)}>
+              <Text style={styles.buttonText}>Accept</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.declineButton]} onPress={() => handleDecline(item.id)}>
+              <Text style={styles.buttonText}>Decline</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
   );
@@ -61,11 +65,6 @@ const RequestScreen = () => {
   const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  requestItem: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
   },
   name: {
     fontSize: 18,
@@ -94,6 +93,22 @@ const RequestScreen = () => {
   declineButton: {
     backgroundColor: '#DC3545', // Red color for decline button
   },
+    profileImage: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      marginRight: 10,
+    },
+    requestItem: {
+      flexDirection: 'row',
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: '#CCCCCC',
+      alignItems: 'center',
+    },
+    requestInfo: {
+      flex: 1,
+    },
 });
 
 export default RequestScreen;
