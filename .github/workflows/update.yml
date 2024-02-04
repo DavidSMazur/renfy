@@ -29,7 +29,7 @@ jobs:
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
-          eas-version: latest
+          eas-version: 'latest' # Or specify a specific version
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install frontend dependencies
