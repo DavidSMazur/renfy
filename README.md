@@ -49,7 +49,7 @@ Renfy is a social connectivity app designed to help users discover potential con
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/itsjustshubh/renfy.git
+    git clone https://github.com/Renfy-Social-Media/Renfy.git
     ```
 2. Install NPM packages for both server and client:
     ```bash
